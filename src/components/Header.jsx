@@ -10,7 +10,6 @@ const Header = () => {
   const { setWeatherData } = useContext(WeatherContext);
   const [suggestions, setSuggestions] = useState([]);
   const [city, setCity] = useState('');
-  const API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
 
   const getWeatherData = async (cityName = city) => {
     const selectedCity = popularCities.find(
@@ -22,15 +21,9 @@ const Header = () => {
     }
 
     try {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather`, {
-          params: {
-            q: selectedCity,
-            appid: API_KEY,
-            units: 'metric'
-          }
-        }
-      );
+      const response = await axios.get("/api/weather", {
+      params: { city: selectedCity }
+    });
       setWeatherData(response.data);
       setCity('');
       setSuggestions([]);
